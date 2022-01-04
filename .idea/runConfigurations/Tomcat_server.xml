@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Tomcat server" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.71" ALTERNATIVE_JRE_ENABLED="false">
-    <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8081/fc_server/services" />
+    <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8081/fc-server/services" />
     <option name="UPDATING_POLICY" value="restart-server" />
     <deployment>
       <artifact name="fc-server:war">
         <settings>
-          <option name="CONTEXT_PATH" value="/fc_server" />
+          <option name="CONTEXT_PATH" value="/fc-server" />
         </settings>
       </artifact>
     </deployment>
