@@ -4,7 +4,9 @@ package org.fosstrak.ale.server.llrp;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -160,8 +162,16 @@ public class LLRPControllerManager  {
 		}
 		LOG.debug("End Undefine ROSPEC for " + lrSpecName);
 	}
-	
-	
+
+	/**
+	 * Get defines RoSpec names.
+	 * @return List of RoSpec names
+	 */
+	public List<String> getSpecNames() {
+		LOG.debug("Get ROSPEC names");
+		return new ArrayList<String>(lrROSpecMap.keySet());
+	}
+
 	/**
 	 * Starts the RoSpec defined on the logical reader
 	 * @param lrSpecName the logical reader name

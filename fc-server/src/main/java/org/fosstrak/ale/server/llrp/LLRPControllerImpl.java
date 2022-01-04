@@ -8,6 +8,8 @@ import org.fosstrak.ale.exception.DuplicateNameException;
 import org.fosstrak.ale.exception.NoSuchNameException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * ORANGE: This class defines the implementation of the Web Services LLRPController.
  * Define, Start, Stop, Enable, Disable ... an ROSPEC on a LLRP Reader. 
@@ -55,6 +57,8 @@ public class LLRPControllerImpl implements LLRPController {
 		llrpControllerManager.undefine(lrSpecName);
 	}
 
-	
-	
+	@WebMethod
+	public List<String> getSpecNames() {
+		return llrpControllerManager.getSpecNames();
+	}
 }
