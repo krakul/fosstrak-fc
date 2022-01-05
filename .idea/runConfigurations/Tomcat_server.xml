@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Tomcat server" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.71" ALTERNATIVE_JRE_ENABLED="false">
-    <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8081/fc-server/services" />
+    <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/fc-server/services" />
     <option name="UPDATING_POLICY" value="restart-server" />
     <deployment>
       <artifact name="fc-server:war">
@@ -11,6 +11,7 @@
     </deployment>
     <server-settings>
       <option name="BASE_DIRECTORY_NAME" value="eb4f552d-05d4-43ed-808e-a700629aa70b" />
+      <option name="HTTP_PORT" value="8080" />
     </server-settings>
     <predefined_log_file enabled="true" id="Tomcat" />
     <predefined_log_file enabled="true" id="Tomcat Catalina" />
