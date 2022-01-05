@@ -17,14 +17,7 @@ import org.fosstrak.ale.server.persistence.RemoveConfig;
 import org.fosstrak.ale.server.persistence.WriteConfig;
 import org.fosstrak.ale.server.persistence.type.PersistenceConfig;
 import org.fosstrak.ale.server.readers.LogicalReaderManager;
-import org.llrp.ltk.generated.messages.ADD_ACCESSSPEC;
-import org.llrp.ltk.generated.messages.ADD_ROSPEC;
-import org.llrp.ltk.generated.messages.DELETE_ROSPEC;
-import org.llrp.ltk.generated.messages.DISABLE_ROSPEC;
-import org.llrp.ltk.generated.messages.ENABLE_ACCESSSPEC;
-import org.llrp.ltk.generated.messages.ENABLE_ROSPEC;
-import org.llrp.ltk.generated.messages.START_ROSPEC;
-import org.llrp.ltk.generated.messages.STOP_ROSPEC;
+import org.llrp.ltk.generated.messages.*;
 import org.llrp.ltk.generated.parameters.AccessSpec;
 import org.llrp.ltk.generated.parameters.ROSpec;
 import org.llrp.ltk.types.UnsignedInteger;
@@ -107,18 +100,30 @@ public class LLRPControllerManager  {
 		throws DuplicateNameException, NoSuchNameException {
 		if (addRoSpec != null) {
 			LOG.debug("Define an ADD_ROSPEC for " + lrSpecName);
+
 			// init the Connection and the LLRP context
 			AdaptorMgmt.initializeLLRPContext();
-			String readerName= retrievePhysicalReader (lrSpecName);
+			String readerName = retrievePhysicalReader(lrSpecName);
 			getLLRPConfiguration();
 			initClientConnection(readerName);
+
+			// TODO Should check for responses of all the commands which are sent down here:
+
+			// First delete possible previous ROSPECs.
+			// This is important when using real readers which may not accept over-defining the spec.
+			DELETE_ROSPEC deleteROSpec = new DELETE_ROSPEC();
+			deleteROSpec.setROSpecID(new UnsignedInteger(0));
+			AdaptorMgmt.sendLLRPMessage(readerName, deleteROSpec);
+
 			// add ROSpec
 			AdaptorMgmt.sendLLRPMessage(readerName, addRoSpec);
+
 			// enable the ROSpec
 			ENABLE_ROSPEC enableROSpec = new ENABLE_ROSPEC();
 			UnsignedInteger roSpecId = addRoSpec.getROSpec().getROSpecID();
 			enableROSpec.setROSpecID(roSpecId);
 			AdaptorMgmt.sendLLRPMessage(readerName, enableROSpec);
+
 			// init the internal data
 			lrROSpecMap.put(lrSpecName, addRoSpec.getROSpec());
 			physicalLRMap.put(readerName, lrSpecName);
@@ -126,6 +131,7 @@ public class LLRPControllerManager  {
 			lrPhysicalMap.put(lrSpecName, readerName);
 			//TODO: case of composite reader
 			lrLLRPCheckMap.put(lrSpecName, new LLRPChecking(readerName));
+
 			// persistence
 			ALEApplicationContext.getBean(WriteConfig.class).writeAddROSpec(lrSpecName, addRoSpec);
 			LOG.debug("End Define an ADD_ROSPEC for " + lrSpecName);
